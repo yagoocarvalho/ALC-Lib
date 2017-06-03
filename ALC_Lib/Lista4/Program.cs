@@ -47,22 +47,26 @@ namespace Lista4
         {
             Console.WriteLine("Start List 4 Execution");
 
+            // Reading configs
             string stringTol = ConfigurationManager.AppSettings.Get("tolerance");
-            string stringDX = ConfigurationManager.AppSettings.Get("dx");
+            string stringDX  = ConfigurationManager.AppSettings.Get("dx");
 
-            double tol = Convert.ToDouble(stringTol.Split('^').First().Split('*').First()) *
-                            Math.Pow(Convert.ToDouble(stringTol.Split('^').First().Split('*').Last()),
-                                      Convert.ToDouble(stringTol.Split('^').Last())
-                            );
-            double dx = Convert.ToDouble(stringDX.Split('^').First().Split('*').First()) *
-                            Math.Pow(Convert.ToDouble(stringDX.Split('^').First().Split('*').Last()),
-                                      Convert.ToDouble(stringDX.Split('^').Last())
-                            );
-            double a = Convert.ToDouble(ConfigurationManager.AppSettings.Get("a"));
-            double b = Convert.ToDouble(ConfigurationManager.AppSettings.Get("b"));
-            double c = Convert.ToDouble(ConfigurationManager.AppSettings.Get("c"));
-            double x0 = Convert.ToDouble(ConfigurationManager.AppSettings.Get("x0"));
-            int nIter = Convert.ToInt32(ConfigurationManager.AppSettings.Get("nIter"));
+            double tol       = Convert.ToDouble(stringTol.Split('^').First().Split('*').First()) *
+                                  Math.Pow(Convert.ToDouble(stringTol.Split('^').First().Split('*').Last()),
+                                            Convert.ToDouble(stringTol.Split('^').Last())
+                                  );
+            double dx        = Convert.ToDouble(stringDX.Split('^').First().Split('*').First()) *
+                                   Math.Pow(Convert.ToDouble(stringDX.Split('^').First().Split('*').Last()),
+                                             Convert.ToDouble(stringDX.Split('^').Last())
+                                   );
+            double aBissec   = Convert.ToDouble (ConfigurationManager.AppSettings.Get ("a-bissec"));
+            double bBissec   = Convert.ToDouble (ConfigurationManager.AppSettings.Get ("b-bissec"));
+            double cBissec   = Convert.ToDouble (ConfigurationManager.AppSettings.Get ("c-bissec"));
+            double aInterp   = Convert.ToDouble (ConfigurationManager.AppSettings.Get ("a-interp"));
+            double bInterp   = Convert.ToDouble (ConfigurationManager.AppSettings.Get ("b-interp"));
+            double cInterp   = Convert.ToDouble (ConfigurationManager.AppSettings.Get ("c-interp"));
+            double x0        = Convert.ToDouble (ConfigurationManager.AppSettings.Get ("x0"));
+            int nIter        = Convert.ToInt32  (ConfigurationManager.AppSettings.Get ("nIter"));
 
 
             string method = ConfigurationManager.AppSettings.Get("method").ToLower();
@@ -70,34 +74,62 @@ namespace Lista4
             switch (method)
             {
                 case "bissection":
-                    _result = SolveByBissection(tol, a, b);
+                    _result = SolveByBissection(tol, aBissec, bBissec);
+                    Console.WriteLine("Final Result = " + _result);
+                    Console.Write("Press any key to continue...");
+                    Console.ReadLine();
                     break;
                 case "newton-original":
                     _result = SolveByNewtonOriginal(tol, x0, nIter);
+                    Console.WriteLine("Final Result = " + _result);
+                    Console.Write("Press any key to continue...");
+                    Console.ReadLine();
                     break;
                 case "newton-secant":
                     _result = SolveByNewtonSecant(tol, x0, nIter, dx);
+                    Console.WriteLine("Final Result = " + _result);
+                    Console.Write("Press any key to continue...");
+                    Console.ReadLine();
                     break;
                 case "inverse-interpolation":
-                    _result = SolveByInverseInterpolation(tol, a, b, c, nIter);
+                    _result = SolveByInverseInterpolation(tol, aInterp, bInterp, cInterp, nIter);
+                    Console.WriteLine("Final Result = " + _result);
+                    Console.Write("Press any key to continue...");
+                    Console.ReadLine();
                     break;
+                case "all":
+                    _result = SolveByBissection (tol, aBissec, bBissec);
+                    Console.WriteLine("Final Result = " + _result);
+                    Console.Write("Press any key to continue...");
+                    Console.ReadLine();
+
+                    _result = SolveByNewtonOriginal (tol, x0, nIter);
+                    Console.WriteLine("Final Result = " + _result);
+                    Console.Write("Press any key to continue...");
+                    Console.ReadLine();
+                    
+                    _result = SolveByNewtonSecant (tol, x0, nIter, dx);
+                    Console.WriteLine("Final Result = " + _result);
+                    Console.Write("Press any key to continue...");
+                    Console.ReadLine();
+                    
+                    _result = SolveByInverseInterpolation (tol, aInterp, bInterp, cInterp, nIter);
+                    Console.WriteLine("Final Result = " + _result);
+                    Console.Write("Press any key to continue...");
+                    Console.ReadLine();
+                    break;
+
                 default:
                     Console.WriteLine("Wrong solving method");
                     System.Environment.Exit(-100);
                     break;
             }
 
-            if (_result == -1)
-            {
-                System.Environment.Exit(-101);
-            }
-            Console.WriteLine("Final Result = " + _result);
-            Console.ReadLine();
-
         }
 
         public static double SolveByBissection(double tol, double a, double b)
         {
+            Console.WriteLine ("Solving by Bissection");
             double result = 0.0;
             double x = 0.0;
             double f;
@@ -128,6 +160,7 @@ namespace Lista4
 
         public static double SolveByNewtonOriginal(double tol, double x0, double nIter)
         {
+            Console.WriteLine ("Solving by Newton (Original)");
             double result = 0.0;
             double tolk = 0.0;
             List<double> x = new List<double>();
@@ -156,6 +189,7 @@ namespace Lista4
 
         public static double SolveByNewtonSecant(double tol, double x0, double nIter, double dx)
         {
+            Console.WriteLine ("Solving by Newton (Secant)");
             double result = 0.0;
             double tolk = 0.0;
             List<double> x = new List<double>();
@@ -189,12 +223,14 @@ namespace Lista4
 
             return -1;
         }
+
         public static double SolveByInverseInterpolation(double tol, double a, double b, double c, double nIter)
         {
-            double result = 0.0;
-            double tolk = 0.0;
-            double[] x = { a, b, c };
-            double[] y = new double[3];
+            Console.WriteLine ("Solving by Inverse Interpolation");
+            double   result = 0.0;
+            double   tolk   = 0.0;
+            double[] x      = { a, b, c };
+            double[] y      = new double[3];
 
             List<double> xk = new List<double>();
             xk.Add(Math.Pow(10, 36));
@@ -241,11 +277,7 @@ namespace Lista4
                     Array.Sort(x);
                 }
             }
-
             return -1;
-
         }
-
-
     }
 }
