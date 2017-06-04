@@ -10,9 +10,6 @@ namespace Lista5
 {
     public class PolinomialIntegration
     {
-
-        public delegate double Function (double x);
-
         /// <summary>
         /// 
         /// </summary>
@@ -21,7 +18,7 @@ namespace Lista5
         /// <param name="b">Superior Integration Limit</param>
         /// <param name="nIntegrationPoints">Number of integration points</param>
         /// <returns>The result</returns>
-        public static double Solve (Function f, double a, double b, int nIntegrationPoints)
+        public static double Solve (Functions.Function f, double a, double b, int nIntegrationPoints)
         {
             double   result = 0.0;
             double   L      = (b - a);

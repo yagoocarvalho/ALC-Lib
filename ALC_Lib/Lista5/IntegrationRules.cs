@@ -8,9 +8,7 @@ namespace Lista5
 {
     public class IntegrationRules
     {
-        public delegate double Function (double x);
-
-        public static double MidPointRule (Function f, double a, double b)
+        public static double MidPointRule (Functions.Function f, double a, double b)
         {
             double m = (b + a) / 2.0;
             double L = (b - a);
@@ -18,13 +16,13 @@ namespace Lista5
             return f (m) * L;
         }
 
-        public static double TrapeziumRule (Function f, double a, double b)
+        public static double TrapeziumRule (Functions.Function f, double a, double b)
         {
             double L = (b - a);
             return ((f(a) + f(b)) / 2.0) * L;
         }
 
-        public static double SimpsonRule (Function f, double a, double b)
+        public static double SimpsonRule (Functions.Function f, double a, double b)
         {
             double m = (b + a) / 2.0;
             double L = (b - a);
@@ -32,7 +30,7 @@ namespace Lista5
             return ((f (a) + 4 * f (m) + f (b))) * (L / 6.0);
         }
 
-        public static double SolveByMT (Function f, double a, double b)
+        public static double SolveByMT (Functions.Function f, double a, double b)
         {
             Console.WriteLine ("Using MidPoint and Trapezium");
             double Mf = MidPointRule  (f, a, b);
@@ -45,7 +43,7 @@ namespace Lista5
             return Mf + Ef;
         }
 
-        public static double SolveByMTS (Function f, double a, double b)
+        public static double SolveByMTS (Functions.Function f, double a, double b)
         {
             Console.WriteLine ("Using Simpson");
             double Mf = MidPointRule  (f, a, b);
