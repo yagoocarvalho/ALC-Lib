@@ -14,14 +14,20 @@ namespace Lista4
         /// </summary>
         /// <param name="x"></param>
         /// <returns></returns>
+        /// 
+        
+
+
         private static double _Function(double x)
         {
             double result = 0.0;
             string functionString = ConfigurationManager.AppSettings.Get("function");
             // TODO: CHANGE THIS TO THE FUNCTION WANTED FUNCTION
-            result = Math.Pow(x, 2.0) - 4 * Math.Cos(x);       // Slide's example
+            //result = Math.Pow(x, 2.0) - 4 * Math.Cos(x);       // Slide's example
             //result = Math.Pow (x, 2.0) - 4 * Math.Cos (x);
+            //result = Math.Log(Math.Cosh(x * Math.Sqrt(9.806 * 0.00341)))-50;
 
+            result = 4 * Math.Cos(x) - Math.Exp(2 * x);
             return result;
         }
 
@@ -35,9 +41,11 @@ namespace Lista4
             double result = 0.0;
             string functionString = ConfigurationManager.AppSettings.Get("function");
             // TODO: CHANGE THIS TO THE FUNCTION WANTED FUNCTION
-            result = (2 * x) + (4 * Math.Sin(x));       // Slide's example
+            //result = (2 * x) + (4 * Math.Sin(x));       // Slide's example
             //result = Math.Pow (x, 2.0) - 4 * Math.Cos (x);
 
+            //result = 0.182862 * Math.Tanh(0.182862 * x);
+            result = -4 * Math.Sin(x) - 2 * Math.Exp(2 * x);
             return result;
         }
 
@@ -70,6 +78,11 @@ namespace Lista4
 
 
             string method = ConfigurationManager.AppSettings.Get("method").ToLower();
+
+            //Initial Guess
+            double x1 = 1;
+            double x2 = 0.5;
+            double x3 = 0.2;
 
             switch (method)
             {
@@ -118,12 +131,22 @@ namespace Lista4
                     Console.Write("Press any key to continue...");
                     Console.ReadLine();
                     break;
+                case "selinear-newton":
+                    SELinear.SolveSEByNewton(tol, x1, x2, x3);
+                    break;
+                case "selinear-broyden":
+                    SELinear.SolveSEByNewton(tol, x1, x2, x3);
+                    break;
+                case "least-square":
+                    SELinear.SolveLeastSquare(tol, x1, x2, x3);
+                    break;
 
                 default:
                     Console.WriteLine("Wrong solving method");
                     System.Environment.Exit(-100);
                     break;
             }
+            Console.ReadLine();
 
         }
 
