@@ -46,6 +46,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GaussianQuadrature.cs" />
+    <Compile Include="IntegrationRules.cs" />
     <Compile Include="PolinomialIntegration.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
