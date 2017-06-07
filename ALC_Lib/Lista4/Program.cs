@@ -51,7 +51,7 @@ namespace Lista4
 
         private static double _result;
 
-        static void Main(string[] args)
+        static void Main2(string[] args)
         {
             Console.WriteLine("Start List 4 Execution");
 
@@ -135,7 +135,7 @@ namespace Lista4
                     SELinear.SolveSEByNewton(tol, x1, x2, x3);
                     break;
                 case "selinear-broyden":
-                    SELinear.SolveSEByNewton(tol, x1, x2, x3);
+                    SELinear.SolveSEByBroyden(tol, x1, x2, x3);
                     break;
                 case "least-square":
                     SELinear.SolveLeastSquare(tol, x1, x2, x3);

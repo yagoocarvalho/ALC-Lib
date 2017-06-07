@@ -57,7 +57,7 @@ namespace Lista5
             Console.WriteLine ("Ef = " + Ef);
             Console.WriteLine ("Ff = " + Ff);
 
-            return Sf - (2*Ff/3);
+            return Sf - (2.0*Ff/3.0);
         }
     }
 }

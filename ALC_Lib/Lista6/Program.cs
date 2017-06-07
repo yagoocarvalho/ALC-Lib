@@ -33,58 +33,33 @@ namespace Lista6
 
         static void Main(string[] args)
         {
-            double h = 0.01;
-            Console.WriteLine("Runge de Ordem 4");
-            Dictionary<string,double> RK4Results = RungeKuta4.RungeKutaOrdemQuatro(0, 1, h, 2);
-            Console.WriteLine("Runge de Ordem 2");
-            Dictionary<string,double> RK2Results = RungeKuta2.RungeKuttaOrdemDois (0, 1, h, 2);
-            Console.WriteLine("Euler");
-            Dictionary<string,double> EulerResults = Euler.EulerMethod (0, 1, h, 2);
-            Console.WriteLine("Real");
-            Dictionary<string,double> RealResults = realFunction (0, 2, h);
+            double h = 0.05;
+            //Console.WriteLine("Runge de Ordem 4");
+            //Dictionary<string,double> RK4Results = RungeKuta4.RungeKutaOrdemQuatro(0, 1, h, 2);
+            //Console.WriteLine("Runge de Ordem 2");
+            //Dictionary<string,double> RK2Results = RungeKuta2.RungeKuttaOrdemDois (0, 1, h, 2);
+            //Console.WriteLine("Euler");
+            //Dictionary<string,double> EulerResults = Euler.EulerMethod (0, 1, h, 2);
+            //Console.WriteLine("Real");
+            //Dictionary<string,double> RealResults = realFunction (0, 2, h);
 
             //Console.WriteLine ("2a Ordem - Taylor");
             //TaylorSeries.Solve (0.0, 1.0, 0.0, 0.0, 0.1, ExampleFunc);
             //
             //Console.WriteLine ("RKN");
-            //RungeKuttaNystrom.Solve (0.0, 1.0, 0.0, 0.0, 0.1, ExampleFunc);
+            //RungeKuttaNystrom.Solve (0.0, 100.0, 0.0, 0.0, h, exercicioAula);
 
             //Dictionary<string,double> TaylorResult = TaylorSeries.Solve (0.0, 100.0, 0.0, 0.0, 0.01, Ex2);
-            //Dictionary<string,double> RKNResult    = RungeKuttaNystrom.Solve (0.0, 100.0, 0.0, 0.0, 0.01, Ex2);
+            Dictionary<string,double> RKNResult    = RungeKuttaNystrom.Solve (0.0, 100.0, 0.0, 0.0, h, exercicioAula);
 
-            //using (StreamWriter sw = new StreamWriter (@"C:\Projects\UFRJ\ALC-Lib\ALC_Lib\Lista6\resultEx2p001.csv"))
-            //{
-            //    sw.WriteLine ("t;Taylor;RKN");
-            //    for (double t = 0; t < 100.0; t = t + 0.01)
-            //    {
-            //        try
-            //        {
-            //            sw.WriteLine (String.Format ("{0};{1};{2}", t.ToString ("0.00"), TaylorResult[t.ToString ("0.00")], RKNResult[t.ToString ("0.00")]));
-            //        }
-            //        catch
-            //        {
-            //            continue;
-            //        }
-            //    }
-            //    sw.Flush ();
-            //}
-
-            using (StreamWriter sw = new StreamWriter (@"C:\Projects\UFRJ\ALC-Lib\ALC_Lib\Lista6\resultEx1p001.csv"))
+            using (StreamWriter sw = new StreamWriter (@"C:\Projects\UFRJ\ALC-Lib\ALC_Lib\Lista6\resultExAulap005.csv"))
             {
-                sw.WriteLine ("t;Euler;RK2;RK4;Real");
+                sw.WriteLine ("t;RKN");
                 for (double t = 0; t < 100.0; t = t + h)
                 {
                     try
                     {
-                        if (h == 0.1)
-                        {
-                            sw.WriteLine (String.Format ("{0};{1};{2};{3};{4}", t.ToString ("0.0"), EulerResults[t.ToString ("0.0")], RK2Results[t.ToString ("0.0")], RK4Results[t.ToString ("0.0")], RealResults[t.ToString ("0.0")]));
-                        }
-                        else
-                        {
-                            sw.WriteLine (String.Format ("{0};{1};{2};{3};{4}", t.ToString ("0.00"), EulerResults[t.ToString ("0.00")], RK2Results[t.ToString ("0.00")], RK4Results[t.ToString ("0.00")], RealResults[t.ToString ("0.00")]));
-                        }
-
+                        sw.WriteLine (String.Format ("{0};{1}", t.ToString ("0.00"), RKNResult[t.ToString ("0.00")]));
                     }
                     catch
                     {
@@ -93,6 +68,31 @@ namespace Lista6
                 }
                 sw.Flush ();
             }
+
+            //using (StreamWriter sw = new StreamWriter (@"C:\Projects\UFRJ\ALC-Lib\ALC_Lib\Lista6\resultExAula.csv"))
+            //{
+            //    sw.WriteLine ("t;Euler;RK2;RK4;Real");
+            //    for (double t = 0; t < 100.0; t = t + h)
+            //    {
+            //        try
+            //        {
+            //            if (h == 0.1)
+            //            {
+            //                sw.WriteLine (String.Format ("{0};{1};{2};{3};{4}", t.ToString ("0.0"), EulerResults[t.ToString //("0.0")], RK2Results[t.ToString ("0.0")], RK4Results[t.ToString ("0.0")], RealResults[t.ToString /("0.0")]));
+            //            }
+            //            else
+            //            {
+            //                sw.WriteLine (String.Format ("{0};{1};{2};{3};{4}", t.ToString ("0.00"), EulerResults[t.ToString //("0.00")], RK2Results[t.ToString ("0.00")], RK4Results[t.ToString ("0.00")], RealResults/[t.ToString ("0.00")]));
+            //            }
+            //
+            //        }
+            //        catch
+            //        {
+            //            continue;
+            //        }
+            //    }
+            //    sw.Flush ();
+            //}
 
             Console.ReadKey ();
         }
@@ -115,6 +115,20 @@ namespace Lista6
         {
             double w = 0.5;
             return 2*Math.Sin(w*t) + Math.Sin(2*w*t) + Math.Cos(3*w*t);
+        }
+
+        public static double exercicioAula (double t, double x, double dx)
+        {
+            double m = 1.0;
+            double c = 0.2;
+            double k = 1.0;
+
+            return (ExAulaF (t) - k * x - c * dx) / m;
+        }
+        public static double ExAulaF (double t)
+        {
+            double w = 0.5;
+            return 2 + 4 * Math.Cos (3 * w * t);
         }
     }
 }

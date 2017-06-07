@@ -16,12 +16,14 @@ namespace Lista4
         static double f1(double[] x)
         {
             //return x[0] + 2*x[1] -2;
-            return Math.Pow(x[0], 2) + x[0] * x[1] - 10;
+            /////////////////////return Math.Pow(x[0], 2) + x[0] * x[1] - 10;
+            return x[0] - x[1] + 2;
         }
         static double f2(double[] x)
         {
             //return Math.Pow(x[0], 2) + 4 * Math.Pow(x[1], 2) - 4; 
-            return x[1] + 3 * x[0] * Math.Pow(x[1], 2) - 57;
+            //return x[1] + 3 * x[0] * Math.Pow(x[1], 2) - 57;
+            return Math.Exp (x[0]) + x[1] - 5;
         }
 
         static Matrix<double> fMatrix(Matrix<double> x) {
@@ -35,8 +37,10 @@ namespace Lista4
             double[] df = new double[x.Count()];
             //df[0] = 1;
             //df[1] = 2*x[0];
-            df[0] = 2 * x[0] + x[1];
-            df[1] = 3 * Math.Pow(x[1],2);
+            df[0] = 1;
+            df[1] = Math.Exp(x[0]);
+            //df[0] = 2 * x[0] + x[1];
+            //df[1] = 3 * Math.Pow(x[1],2);
             return df;
         }
         static double[] df2(double[] x)
@@ -44,13 +48,16 @@ namespace Lista4
             double[] df = new double[x.Count()];
             //df[0] = 2;
             //df[1] = 8*x[1];
-            df[0] = x[0];
-            df[1] = 1 + 6 * x[1] * x[0];
+            //df[0] = x[0];
+            //df[1] = 1 + 6 * x[1] * x[0];
+            df[0] = -1;
+            df[1] = 1;
             return df;
         }
 
 
         public static void SolveSEByBroyden(double tol, double x1, double x2) {
+            Console.WriteLine ("Broyden");
             double tolk = 0.0;
             Matrix<double> result;
             Matrix<Double> jacobian, deltaX, solution, Y, B, M;
@@ -64,22 +71,16 @@ namespace Lista4
             for (int i = 1; i < 20; i++)
             {
 
-                Console.WriteLine("X0: {0} e F(x0) {1}", x0, fMatrix(x0));
                 deltaX = -jacobian.Inverse().Multiply(fMatrix(x0));
-                Console.WriteLine("Deltax: {0}", deltaX);
 
                 solution = deltaX.Add(x0);
                 Y = fMatrix(solution).Subtract(fMatrix(x0));
-                Console.WriteLine("Y::::");
-                Console.WriteLine(Y);
 
-                Console.WriteLine(String.Format("Iter:{0}\tx1:{1}\tx2:{2}", 
-                                                                i, solution[0, 0].ToString("0.0000000"), 
-                                                                solution[1, 0].ToString("0.0000000")));
                 tolk = deltaX.FrobeniusNorm() / solution.FrobeniusNorm();
-                Console.WriteLine("tolk : {0}", tolk);
-                Console.WriteLine("X:");
-                Console.WriteLine(solution);
+                Console.WriteLine(String.Format("Iter:{0}\tx1:{1}\tx2:{2}\ttolk:{3}", 
+                                                                i, solution[0, 0].ToString("0.0000000"), 
+                                                                solution[1, 0].ToString("0.0000000"),
+                                                                tolk));
                 if (tolk < tol)
                 {
                     result = solution;
@@ -94,7 +95,6 @@ namespace Lista4
                                       .Multiply(((deltaX.Transpose().Multiply(deltaX)).Inverse())[0, 0]));
                     jacobian = B;
                     x0 = solution;
-                    Console.WriteLine(B);
                 }
             }
 
@@ -102,6 +102,8 @@ namespace Lista4
 
         public static void SolveSEByNewton(double tol, double x1, double x2)
         {
+
+            Console.WriteLine ("Newton:");
             double tolk = 0.0;
             Matrix<double> result;
             Matrix<Double> jacobian, deltaX, solution;
@@ -116,11 +118,11 @@ namespace Lista4
 
                 deltaX = -jacobian.Inverse().Multiply(fMatrix(x0));
                 solution = deltaX.Add(x0);
-                Console.WriteLine(String.Format("Iter:{0}\tx1:{1}\tx2:{2}",
-                                                                i, solution[0, 0].ToString("0.000"),
-                                                                solution[1, 0].ToString("0.000")));
                 tolk = deltaX.FrobeniusNorm() / solution.FrobeniusNorm();
-                Console.WriteLine("Tol: {0}", tolk);
+                Console.WriteLine(String.Format("Iter:{0}\tx1:{1}\tx2:{2}\ttolk:{3}",
+                                                                i, solution[0, 0].ToString("0.000"),
+                                                                solution[1, 0].ToString("0.000"),
+                                                                tolk));
                 if (tolk < tol)
                 {
                     result = solution;
@@ -137,7 +139,7 @@ namespace Lista4
 
         }
 
-        static void Main3(string[] args)
+        static void Main(string[] args)
         {
 
             double tolk = 0.0;
@@ -148,8 +150,10 @@ namespace Lista4
                                 Convert.ToDouble(stringTol.Split('^').Last())
                       );
             double x1 = 1;
-            double x2 = 3;
+            double x2 = 1;
             SolveSEByNewton(tol, x1, x2);
+            Console.WriteLine ("====================================================");
+            SolveSEByBroyden (tol, x1, x2);
             Console.ReadLine();
 
         }

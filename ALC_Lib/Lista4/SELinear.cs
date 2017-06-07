@@ -133,6 +133,8 @@ namespace Lista4
             //df[1] = Math.Pow(2, x[2]) * x[1] * Math.Log(2);
             //df[2] = Math.Pow(3, x[2]) * x[1] *Math.Log(3);
 
+
+
             return df;
         }
 

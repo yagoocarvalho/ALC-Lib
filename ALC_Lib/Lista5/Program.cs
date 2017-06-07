@@ -138,7 +138,8 @@ namespace Lista5
         private static double FunctionExample (double x)
         {
             // Slide's example
-            return (Math.Exp(-1.0 * Math.Pow(x, 2.0))); 
+            //return (Math.Exp(-1.0 * Math.Pow(x, 2.0))); 
+            return Math.Exp ((-1.0 / 2.0) * Math.Pow (x, 2.0));
         }
 
         // Checked OK
