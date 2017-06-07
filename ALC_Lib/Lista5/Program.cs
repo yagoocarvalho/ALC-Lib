@@ -160,6 +160,11 @@ namespace Lista5
             double num2 = (16.0 * Math.Pow (Math.PI, 3.0));
             double den2 = (Math.Pow (w, 4.0) * Math.Pow (Tz, 4.0));
 
+            if (w == 0)
+            {
+                return 0.0;
+            }
+
             double result = (num1/ den1) * (Math.Exp (-1.0 * (num2/ den2)));
 
             return result;

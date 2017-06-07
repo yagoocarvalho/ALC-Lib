@@ -16,19 +16,28 @@ namespace Lista6
 
         }
 
-        public static void RungeKuttaOrdemDois(double t_0, double x_0, double h, double t_end)
+        public static Dictionary<string, double> RungeKuttaOrdemDois (double t_0, double x_0, double h, double t_end)
         {
 
             double t = 0, x = x_0;
-
-            Console.WriteLine("T:{0}\tRK2:{1}", t_0, x_0);
-
+            Dictionary<string,double> results = new Dictionary<string, double> ();
 
             for (t =t_0; t <= t_end; t = t + h)
             {
+                if (h == 0.1)
+                {
+                    Console.WriteLine("T:{0}\tRK2:{1}", t.ToString("0.0"), x);
+                    results.Add (t.ToString ("0.0"), x);
+                }
+                else
+                {
+                    Console.WriteLine ("T:{0}\tRK2:{1}", t.ToString ("0.00"), x);
+                    results.Add (t.ToString ("0.00"), x);
+                }
                 x = x + (h / 2) * (K1(t, x) + K2(t, x, h) );
-                Console.WriteLine("T:{0}\tRK2:{1}", t+h, x);
             }
+
+            return results;
         }
 
         public static double K1(double t, double x)
