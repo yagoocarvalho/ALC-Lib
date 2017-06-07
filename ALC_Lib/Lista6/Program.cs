@@ -26,7 +26,19 @@ namespace Lista6
             Euler.EulerMethod(0, 1, 0.01,2);
             Console.WriteLine("Real");
             realFunction(0, 2, 0.1);
+
+            Console.WriteLine ("2a Ordem - Taylor");
+            TaylorSeries.Solve (0.0, 1.0, 0.0, 0.0, 0.1, ExampleFunc);
+
+            Console.WriteLine ("RKN");
+            RungeKuttaNystrom.Solve (0.0, 1.0, 0.0, 0.0, 0.1, ExampleFunc);
+
             Console.ReadKey();
+        }
+
+        public static double ExampleFunc (double t, double x, double dx)
+        {
+            return -9.8 - (1.0*dx*Math.Abs(dx));
         }
     }
 }

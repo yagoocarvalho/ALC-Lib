@@ -49,6 +49,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RungeKuta2.cs" />
     <Compile Include="RungeKuta4.cs" />
+    <Compile Include="RungeKuttaNystrom.cs" />
+    <Compile Include="TaylorSeries.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
